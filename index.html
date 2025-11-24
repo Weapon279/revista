@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Revistas Digitales</title>
+  <meta name="description" content="Sistema de gestión y lectura de revistas digitales offline"/>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+  <meta name="theme-color" content="#1a1a2e"/>
+
+  <!-- Icons -->
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <header>
+    <h1>Revistas Digitales</h1>
+    <span id="connection-status">Conectando...</span>
+  </header>
+
+  <main>
+    <section id="add-form">
+      <h2>Agregar Nueva Publicación</h2>
+      <form id="revista-form">
+        <input type="text" id="titulo" placeholder="Título de la revista" required/>
+        <input type="text" id="subtitulo" placeholder="Subtítulo (opcional)"/>
+        <input type="date" id="fecha" required/>
+        <input type="url" id="portada" placeholder="URL de la portada (imagen)" required/>
+        <textarea id="descripcion" placeholder="Descripción corta" rows="3"></textarea>
+        <button type="submit">Publicar Revista</button>
+      </form>
+    </section>
+
+    <section id="lista-revistas">
+      <h2>Publicaciones Disponibles</h2>
+      <div id="revistas-grid"></div>
+      <p id="empty-message">No hay revistas aún. ¡Agrega la primera!</p>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
