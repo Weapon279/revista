@@ -1,25 +1,25 @@
 {
   "name": "Revistas Digitales",
   "short_name": "Revistas",
-  "description": "Sistema de revistas digitales offline con notificaciones",
+  "description": "Sistema de revistas digitales offline con notificaciones push",
   "start_url": "/revista-digital-pwa/",
   "display": "standalone",
-  "background_color": "#1a1a2e",
-  "theme_color": "#1a1a2e",
+  "background_color": "#0d0d1a",
+  "theme_color": "#00d4ff",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3TRhAAADoElEQVR4Ae2dZ3dTVRjH7+...",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAAD0eNTAAAI60lEQVR4Ae2dZ3dTVRjH7+...",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "icons/maskable-512.png",
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAAD0eNTAAAI60lEQVR4Ae2dZ3dTVRjH7+...",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"

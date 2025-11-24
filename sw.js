@@ -1,45 +1,29 @@
-const CACHE_NAME = 'revistas-v8';
-const urlsToCache = [
-  './',
-  'index.html',
-  'manifest.json',
-  'css/style.css',
-  'js/app.js',
-  'js/websocket.js',
-  'icons/icon-192.png',
-  'icons/icon-512.png'
+const CACHE = 'revista-pwa-v12';
+const ASSETS = [
+  '/revista-digital-pwa/',
+  '/revista-digital-pwa/index.html',
+  '/revista-digital-pwa/manifest.json',
+  '/revista-digital-pwa/css/style.css',
+  '/revista-digital-pwa/js/app.js'
 ];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE).then(cache => cache.addAll(ASSETS))
   );
 });
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(response => {
-      return response || fetch(e.request);
-    })
+    caches.match(e.request).then(res => res || fetch(e.request))
   );
 });
 
-// Notificaciones Push
-self.addEventListener('push', event => {
-  const data = event.data ? event.data.json() : {};
-  const title = data.title || '¡Nueva revista publicada!';
-  const options = {
-    body: data.body || 'Hay una nueva edición disponible',
-    icon: 'icons/icon-192.png',
-    badge: 'icons/icon-192.png',
-    vibrate: [200, 100, 200],
-    data: { url: '/' }
-  };
-
-  event.waitUntil(self.registration.showNotification(title, options));
-});
-
-self.addEventListener('notificationclick', event => {
-  event.notification.close();
-  event.waitUntil(clients.openWindow('/'));
+self.addEventListener('push', e => {
+  const data = e.data.json();
+  self.registration.showNotification(data.title || 'Nueva revista', {
+    body: data.body || 'Hay una nueva publicación',
+    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3TRh...',
+    badge: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3TRh...'
+  });
 });
