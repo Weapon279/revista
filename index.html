@@ -1,66 +1,1050 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Revistas Digitales</title>
-  <meta name="description" content="Revistas científicas y culturales digitales - PWA offline"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Revistas Digitales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1a1a2e"/>
-  <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3TRhAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAACclpQ0LEAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAIABJREFUeNrsXQt0VNWZ7v1pJnZkFpMJmA0i...",/>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  <style>
-    body{font-family:system-ui,sans-serif;background:#0d0d1a;color:#eee;margin:0;padding:0}
-    header{background:#16213e;padding:1.5rem;text-align:center;position:relative}
-    h1{color:#00d4ff;margin:0;font-size:2rem}
-    #install-btn, #status{background:#00d4ff;color:#000;padding:12px 24px;border:none;border-radius:50px;font-weight:bold;margin:10px;cursor:pointer}
-    #status{position:absolute;top:15px;right:15px;font-size:0.8rem;padding:6px 12px}
-    main{max-width:1100px;margin:0 auto;padding:1rem}
-    .section{background:#16213e;padding:1.5rem;border-radius:15px;margin-bottom:2rem}
-    form{display:grid;gap:12px}
-    input,textarea,button{padding:14px;border-radius:10px;border:none;font-size:1rem}
-    input,textarea{background:#0a0a14;color:white}
-    button{background:#00d4ff;color:black;font-weight:bold}
-    #revistas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-top:1rem}
-    .card{background:#0f0f1a;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,212,255,0.1);transition:0.3s}
-    .card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,212,255,0.2)}
-    .card img{width:100%;height:220px;object-fit:cover}
-    .card-body{padding:1.2rem}
-    .card h3{margin:0.5rem 0;color:#00d4ff}
-    #empty-message{text-align:center;padding:4rem;font-size:1.3rem;opacity:0.6}
-    .online{background:#0f03 !important;color:#0f9 !important}
-    .offline{background:#3003 !important;color:#f33 !important}
-  </style>
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)), url('https://images.unsplash.com/photo-1497636577773-f1231844b336?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Publications Section */
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-left: 5px solid var(--secondary);
+            padding-left: 15px;
+        }
+
+        .publications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .publication-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .publication-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .publication-img {
+            height: 180px;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .publication-content {
+            padding: 1.5rem;
+        }
+
+        .publication-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .publication-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .publication-description {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .publication-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        /* Add Publication Form */
+        .add-publication-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background-color: var(--accent);
+        }
+
+        .notification.warning {
+            background-color: var(--warning);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: var(--shadow);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 12px 20px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .publications-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Connection Status */
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            border-radius: 30px;
+            color: white;
+            font-size: 0.9rem;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .connection-status.online {
+            background-color: var(--success);
+        }
+
+        .connection-status.offline {
+            background-color: var(--accent);
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Revistas Digitales</h1>
-    <div id="status">Cargando...</div>
-    <button id="install-btn" style="display:none">Instalar como App</button>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Revistas Digitales</h1>
+                </div>
+                <nav>
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="nav-links">
+                        <a href="#inicio">Inicio</a>
+                        <a href="#publicaciones">Publicaciones</a>
+                        <a href="#nuevo">Agregar Revista</a>
+                        <a href="#estadisticas">Estadísticas</a>
+                        <a href="#contacto">Contacto</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-  <main>
-    <div class="section">
-      <h2>Agregar Nueva Revista</h2>
-      <form id="revista-form">
-        <input type="text" id="titulo" placeholder="Título" required />
-        <input type="text" id="subtitulo" placeholder="Subtítulo (opcional)" />
-        <input type="date" id="fecha" required />
-        <input type="url" id="portada" placeholder="URL de imagen de portada" value="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800" required />
-        <textarea id="descripcion" placeholder="Descripción corta" rows="3"></textarea>
-        <button type="submit">Publicar Revista</button>
-      </form>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h2>Sistema de Gestión de Revistas Digitales</h2>
+            <p>Publica, gestiona y comparte tus revistas digitales de manera profesional. Una plataforma completa para editores y lectores.</p>
+            <div class="hero-actions">
+                <button class="btn" id="showFormBtn">Agregar Nueva Revista</button>
+                <button class="btn btn-secondary" id="testNotifications">Probar Notificaciones</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Add Publication Form -->
+        <section class="add-publication-form" id="addPublicationForm">
+            <h2 class="section-title">Agregar Nueva Revista</h2>
+            <form id="publicationForm">
+                <div class="form-group">
+                    <label for="title">Título de la Revista</label>
+                    <input type="text" id="title" class="form-control" placeholder="Ingresa el título" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Autor(es)</label>
+                    <input type="text" id="author" class="form-control" placeholder="Nombre del autor o autores" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" class="form-control" rows="4" placeholder="Describe el contenido de la revista" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoría</label>
+                    <select id="category" class="form-control" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Científica">Científica</option>
+                        <option value="Cultural">Cultural</option>
+                        <option value="Tecnológica">Tecnológica</option>
+                        <option value="Educativa">Educativa</option>
+                        <option value="Literaria">Literaria</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="coverColor">Color de Portada</label>
+                    <input type="color" id="coverColor" class="form-control" value="#3498db">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelFormBtn">Cancelar</button>
+                    <button type="submit" class="btn">Publicar Revista</button>
+                </div>
+            </form>
+        </section>
+
+        <div class="main-content">
+            <!-- Publications Section -->
+            <section id="publicaciones">
+                <h2 class="section-title">Revistas Publicadas</h2>
+                <div class="publications-grid" id="publicationsGrid">
+                    <!-- Publications will be dynamically added here -->
+                </div>
+            </section>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title"><i class="fas fa-chart-bar"></i> Estadísticas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalPublications">0</div>
+                            <div class="stat-label">Revistas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalAuthors">0</div>
+                            <div class="stat-label">Autores</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalViews">0</div>
+                            <div class="stat-label">Visitas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="newThisMonth">0</div>
+                            <div class="stat-label">Este Mes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title"><i class="fas fa-bell"></i> Notificaciones</h3>
+                    <p>Mantente informado sobre nuevas publicaciones y actualizaciones.</p>
+                    <button class="btn" id="enableNotifications" style="width: 100%; margin-top: 10px;">
+                        Activar Notificaciones
+                    </button>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title"><i class="fas fa-download"></i> Instalar App</h3>
+                    <p>Instala esta aplicación en tu dispositivo para acceso rápido y sin conexión.</p>
+                    <button class="btn btn-secondary" id="installBtn" style="width: 100%; margin-top: 10px;">
+                        <i class="fas fa-download"></i> Instalar App
+                    </button>
+                </div>
+            </aside>
+        </div>
     </div>
 
-    <div class="section">
-      <h2>Últimas Publicaciones</h2>
-      <div id="revistas-grid"></div>
-      <p id="empty-message">No hay revistas aún. ¡Agrega la primera!</p>
-    </div>
-  </main>
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Sistema de Revistas Digitales</h3>
+                    <p>Una plataforma completa para la gestión y publicación de revistas digitales de manera profesional y accesible.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#publicaciones">Publicaciones</a></li>
+                        <li><a href="#nuevo">Agregar Revista</a></li>
+                        <li><a href="#estadisticas">Estadísticas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> info@revistasdigitales.com</li>
+                        <li><i class="fas fa-phone"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ciudad, País</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Sistema de Revistas Digitales. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
-  <script type="module" src="js/app.js"></script>
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Operación completada con éxito</span>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="connection-status" id="connectionStatus">
+        <i class="fas fa-wifi"></i>
+        <span>Conectado</span>
+    </div>
+
+    <script>
+        // Service Worker Registration for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // WebSocket Connection
+        let socket;
+        function connectWebSocket() {
+            // In a real application, you would connect to your WebSocket server
+            // For this demo, we'll simulate WebSocket behavior
+            console.log("WebSocket conectado (simulado)");
+            
+            // Simulate receiving messages
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    const messages = [
+                        "Nueva revista publicada: Tecnología Avanzada",
+                        "Actualización disponible para Revista Científica",
+                        "Nuevo autor registrado en el sistema"
+                    ];
+                    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                    showNotification(randomMessage, "info");
+                }
+            }, 15000);
+        }
+
+        // DOM Elements
+        const showFormBtn = document.getElementById('showFormBtn');
+        const cancelFormBtn = document.getElementById('cancelFormBtn');
+        const addPublicationForm = document.getElementById('addPublicationForm');
+        const publicationForm = document.getElementById('publicationForm');
+        const publicationsGrid = document.getElementById('publicationsGrid');
+        const enableNotificationsBtn = document.getElementById('enableNotifications');
+        const testNotificationsBtn = document.getElementById('testNotifications');
+        const installBtn = document.getElementById('installBtn');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        // Statistics Elements
+        const totalPublications = document.getElementById('totalPublications');
+        const totalAuthors = document.getElementById('totalAuthors');
+        const totalViews = document.getElementById('totalViews');
+        const newThisMonth = document.getElementById('newThisMonth');
+
+        // Sample Data
+        let publications = [
+            {
+                id: 1,
+                title: "Revista Científica Internacional",
+                author: "Dr. Alejandro Martínez",
+                description: "Publicación trimestral que recoge los avances más importantes en el campo de la investigación científica.",
+                category: "Científica",
+                date: "2023-10-15",
+                views: 1245,
+                color: "#3498db"
+            },
+            {
+                id: 2,
+                title: "Cultura y Sociedad",
+                author: "María González",
+                description: "Análisis de las tendencias culturales contemporáneas y su impacto en la sociedad actual.",
+                category: "Cultural",
+                date: "2023-09-22",
+                views: 876,
+                color: "#e74c3c"
+            },
+            {
+                id: 3,
+                title: "Tecnología del Futuro",
+                author: "Ing. Carlos Rodríguez",
+                description: "Exploración de las tecnologías emergentes que están transformando nuestro mundo.",
+                category: "Tecnológica",
+                date: "2023-11-05",
+                views: 1532,
+                color: "#2ecc71"
+            }
+        ];
+
+        // Initialize the application
+        function init() {
+            renderPublications();
+            updateStatistics();
+            connectWebSocket();
+            setupEventListeners();
+            checkConnectionStatus();
+            
+            // Check if the app is already installed
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                installBtn.style.display = 'none';
+            }
+        }
+
+        // Render publications to the grid
+        function renderPublications() {
+            publicationsGrid.innerHTML = '';
+            
+            publications.forEach(pub => {
+                const publicationCard = document.createElement('div');
+                publicationCard.className = 'publication-card';
+                publicationCard.innerHTML = `
+                    <div class="publication-img" style="background-color: ${pub.color};">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="publication-content">
+                        <h3 class="publication-title">${pub.title}</h3>
+                        <div class="publication-meta">
+                            <span><i class="fas fa-user"></i> ${pub.author}</span>
+                            <span><i class="fas fa-calendar"></i> ${formatDate(pub.date)}</span>
+                        </div>
+                        <p class="publication-description">${pub.description}</p>
+                        <div class="publication-actions">
+                            <button class="action-btn" onclick="viewPublication(${pub.id})">
+                                <i class="fas fa-eye"></i> Ver
+                            </button>
+                            <button class="action-btn" onclick="editPublication(${pub.id})">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="action-btn" onclick="deletePublication(${pub.id})">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                publicationsGrid.appendChild(publicationCard);
+            });
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            totalPublications.textContent = publications.length;
+            
+            // Count unique authors
+            const authors = [...new Set(publications.map(pub => pub.author))];
+            totalAuthors.textContent = authors.length;
+            
+            // Calculate total views
+            const views = publications.reduce((total, pub) => total + pub.views, 0);
+            totalViews.textContent = views;
+            
+            // Calculate new this month (simplified)
+            const currentMonth = new Date().getMonth();
+            const thisMonthPubs = publications.filter(pub => {
+                const pubDate = new Date(pub.date);
+                return pubDate.getMonth() === currentMonth;
+            });
+            newThisMonth.textContent = thisMonthPubs.length;
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('es-ES', options);
+        }
+
+        // Show notification
+        function showNotification(message, type = "success") {
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            
+            if (type === "error") {
+                notification.classList.add('error');
+                notification.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else if (type === "warning") {
+                notification.classList.add('warning');
+                notification.querySelector('i').className = 'fas fa-exclamation-triangle';
+            } else if (type === "info") {
+                notification.querySelector('i').className = 'fas fa-info-circle';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Check connection status
+        function checkConnectionStatus() {
+            if (navigator.onLine) {
+                connectionStatus.className = 'connection-status online';
+                connectionStatus.innerHTML = '<i class="fas fa-wifi"></i> <span>Conectado</span>';
+            } else {
+                connectionStatus.className = 'connection-status offline';
+                connectionStatus.innerHTML = '<i class="fas fa-wifi-slash"></i> <span>Sin conexión</span>';
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Show/hide add publication form
+            showFormBtn.addEventListener('click', () => {
+                addPublicationForm.style.display = 'block';
+                addPublicationForm.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            cancelFormBtn.addEventListener('click', () => {
+                addPublicationForm.style.display = 'none';
+                publicationForm.reset();
+            });
+            
+            // Handle form submission
+            publicationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const title = document.getElementById('title').value;
+                const author = document.getElementById('author').value;
+                const description = document.getElementById('description').value;
+                const category = document.getElementById('category').value;
+                const color = document.getElementById('coverColor').value;
+                
+                const newPublication = {
+                    id: publications.length + 1,
+                    title,
+                    author,
+                    description,
+                    category,
+                    date: new Date().toISOString().split('T')[0],
+                    views: 0,
+                    color
+                };
+                
+                publications.unshift(newPublication);
+                renderPublications();
+                updateStatistics();
+                
+                addPublicationForm.style.display = 'none';
+                publicationForm.reset();
+                
+                showNotification('Revista publicada exitosamente');
+                
+                // Simulate WebSocket broadcast
+                setTimeout(() => {
+                    showNotification(`Nueva revista publicada: ${title}`, "info");
+                }, 2000);
+            });
+            
+            // Enable notifications
+            enableNotificationsBtn.addEventListener('click', () => {
+                if ('Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            showNotification('Notificaciones activadas correctamente');
+                        } else {
+                            showNotification('No se pudieron activar las notificaciones', 'warning');
+                        }
+                    });
+                } else {
+                    showNotification('Tu navegador no soporta notificaciones', 'error');
+                }
+            });
+            
+            // Test notifications
+            testNotificationsBtn.addEventListener('click', () => {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification('Sistema de Revistas Digitales', {
+                        body: 'Esta es una notificación de prueba del sistema',
+                        icon: '/icon-192x192.png'
+                    });
+                } else {
+                    showNotification('Activa las notificaciones primero', 'warning');
+                }
+            });
+            
+            // Install app
+            let deferredPrompt;
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.style.display = 'block';
+            });
+            
+            installBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            showNotification('Aplicación instalada correctamente');
+                            installBtn.style.display = 'none';
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            });
+            
+            // Connection status
+            window.addEventListener('online', checkConnectionStatus);
+            window.addEventListener('offline', checkConnectionStatus);
+            
+            // Mobile menu
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Publication actions
+        function viewPublication(id) {
+            const publication = publications.find(pub => pub.id === id);
+            showNotification(`Viendo: ${publication.title}`);
+            // In a real app, this would navigate to the publication page
+        }
+
+        function editPublication(id) {
+            const publication = publications.find(pub => pub.id === id);
+            showNotification(`Editando: ${publication.title}`, "info");
+            // In a real app, this would open an edit form with the publication data
+        }
+
+        function deletePublication(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta revista?')) {
+                publications = publications.filter(pub => pub.id !== id);
+                renderPublications();
+                updateStatistics();
+                showNotification('Revista eliminada correctamente');
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
